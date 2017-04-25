@@ -1,7 +1,8 @@
 <template>
   <div>
-    <header><h1>我的音乐</h1></header>
-    <router-view></router-view>
+    <!-- <header><h1>我的音乐</h1></header> -->
+    <x-header :left-options="{showBack: false}" fiexd  title="我的音乐"></x-header>
+    <scroller ref="scroller" height="-93" :lock-x="true" :scrollbarY="true" ><router-view @resetScroller="resetScroller"></router-view></scroller>
     <tabbar>
       <tabbar-item>
         <img slot="icon" >
@@ -24,7 +25,7 @@
 </template>
 
 <script>
-import { Tabbar, TabbarItem } from 'vux'
+import { XHeader, Tabbar, TabbarItem, Scroller} from 'vux'
 
 export default {
   data(){
@@ -32,10 +33,12 @@ export default {
   	}
   },
   components:{
-  	Tabbar, TabbarItem
+  	XHeader,Tabbar, TabbarItem,Scroller
   },
   methods:{
-
+    resetScroller(){
+      this.$refs['scroller'].reset()
+    }
   }
 }
 </script>

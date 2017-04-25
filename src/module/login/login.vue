@@ -25,14 +25,14 @@ export default {
   },
   methods:{
   	login(){
-  		console.log(1111)
   		var that = this
   		this.$http.get('/proxy/login/cellphone',{params:{
         	phone:this.phone,
         	password:this.password
     	}}).then(function(res){
     		if(res.data.code === 200){
-    			console.log(that)
+    			console.log(that.$store.state)
+          that.$store.state.uid = res.data.account.id
     			that.$router.push('/main/myMusic')
     		}
     	})

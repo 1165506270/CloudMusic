@@ -6,6 +6,7 @@ import VueRouter from 'vue-router'
 import App from './App'
 import router from './router'
 import { AjaxPlugin } from 'vux'
+import store from './store'
 // import Home from './components/HelloFromVux'
 
 // Vue.use(VueRouter)
@@ -25,6 +26,6 @@ Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
-  router,
+  router,store,
   render: h => h(App)
 }).$mount('#app-box')
