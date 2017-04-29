@@ -1,6 +1,6 @@
 <template>
   <div>
-    <cell v-for="item in playlist"  :key="item.id" :title="item.name" :inline-desc="item.trackCount+'首'">
+    <cell v-for="item in playlist"  :key="item.id" :title="item.name" :inline-desc="item.trackCount+'首'" :link="'/main/songList/'+item.id">
         <img slot="icon" style="height:3rem;width:3rem;margin-right:0.5rem;" :src="item.coverImgUrl" alt="">
     </cell>
   </div>
@@ -19,7 +19,8 @@ export default {
   	Cell
   },
   mounted(){
-    this.initData()
+    this.initData();
+    this.$store.state.title="我的音乐";
   },
   methods:{
     initData(){

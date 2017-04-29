@@ -4,6 +4,8 @@ import Hello from '@/components/HelloFromVux'
 import Longin from '@/module/login/login'
 import Main from '@/module/main/main'
 import MyMusic from '@/module/main/myMusic/myMusic'
+import SongList from '@/module/main/songList/songList'
+import MusicPlay from '@/module/musicPlay/musicPlay'
 Vue.use(Router)
 
 export default new Router({
@@ -24,8 +26,15 @@ export default new Router({
     		{
     			path:'myMusic',
     			component:MyMusic
+    		},{
+    			path:'songList/:id',
+    			component:SongList
     		}
     	]
-    }
+    },
+    {
+    	path: '/muiscPlay/:id',
+    	component: MusicPlay
+    },
   ]
 })

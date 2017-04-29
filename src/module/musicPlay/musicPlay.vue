@@ -1,21 +1,24 @@
 <template>
   <div>
-    <cell v-for="item in playlist"  :key="item.id" :title="item.name" :inline-desc="item.ar[0].name+'-'+item.al.name" :link="'/muiscPlay/'+item.id">
-    </cell>
+    <!-- <audio controls="controls" :src="musicUrl">  
+      <source :src="musicUrl" />  
+    </audio>  -->
+    <music :musicUrl="musicUrl"></music> 
   </div>
 </template>
 
 <script>
 import { Cell } from 'vux'
-
+import Music from '@/components/music.vue'
+ 
 export default {
   data(){
   	return {
-      playlist:[]
+      musicUrl:''
   	}
   },
   components:{
-  	Cell
+  	Cell,Music
   },
   mounted(){
     this.initData()
@@ -24,11 +27,10 @@ export default {
     initData(){
       var that = this
       console.log(that.$store.state.uid)
-      this.$http.get('/proxy/playlist/detail',{params:{id:that.$route.params.id}})
+      this.$http.get('/proxy/music/songDetail',{params:{ids:that.$route.params.id}})
       .then(function(res){
-        
-        that.playlist = res.data.playlist.tracks
-        that.$store.state.title =  res.data.playlist.name;
+        that.musicUrl = res.data.songs[0].mp3Url;
+        // that.$store.state.title =  res.data.playlist.name;
         that.$nextTick(function(){
           console.log(11)
           that.$emit('resetScroller')

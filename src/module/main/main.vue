@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <header><h1>我的音乐</h1></header> -->
-    <x-header :left-options="{showBack: false}" fiexd  title="我的音乐"></x-header>
+    <x-header :left-options="{showBack: false}" fiexd  :title="title"></x-header>
     <scroller ref="scroller" height="-93" :lock-x="true" :scrollbarY="true" ><router-view @resetScroller="resetScroller"></router-view></scroller>
     <tabbar>
       <tabbar-item>
@@ -31,6 +31,11 @@ export default {
   data(){
   	return {
   	}
+  },
+  computed:{
+    title(){
+      return this.$store.state.title
+    }
   },
   components:{
   	XHeader,Tabbar, TabbarItem,Scroller
