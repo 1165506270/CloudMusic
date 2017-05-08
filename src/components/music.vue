@@ -4,10 +4,13 @@
       	<box  gap="10px">
       		<range v-model="percent" @change="playChange"></range>
       	</box>
-
-      	<span v-if="palyState" @click="palyMusic"><x-icon type="pause"  class="icon-red"></x-icon></span>
-      	<span v-else @click="palyMusic"><x-icon type="play"  class="icon-red"></x-icon></span>
-      	
+      	<div class="controls">
+      		<x-icon size="40" type="ios-skipbackward"  class="icon-red"></x-icon>
+      		<span  v-if="palyState" @click="palyMusic"><x-icon size="40" type="pause"  class="icon-red"></x-icon></span>
+      		<span v-else @click="palyMusic"><x-icon size="40" type="play"  class="icon-red"></x-icon></span>
+      		<x-icon type="ios-skipforward" size="40"  class="icon-red"></x-icon>
+      	</div>
+		
       	<!-- <x-button text="播放"  @click.native="stopPlay" type="primary">11</x-button> -->
 	</div>
 </template>
@@ -85,5 +88,11 @@ import { XProgress, Box,XButton,Range } from 'vux'
 		border-radius: 4px;
 		top:6px;
 		left: 6px;
+	}
+	.controls{
+		/*display: inline-block;*/
+		/*margin:0 auto;*/
+		text-align: center;
+		font-size: 20px;
 	}
 </style>
