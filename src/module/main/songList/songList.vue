@@ -27,10 +27,10 @@ export default {
       this.$http.get('/proxy/playlist/detail',{params:{id:that.$route.params.id}})
       .then(function(res){
         
-        that.playlist = res.data.playlist.tracks
+        that.playlist = res.data.playlist.tracks;
         that.$store.state.title =  res.data.playlist.name;
+        that.$store.state.playlist = res.data.playlist.tracks;
         that.$nextTick(function(){
-          console.log(11)
           that.$emit('resetScroller')
         })
       })

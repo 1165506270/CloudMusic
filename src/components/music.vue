@@ -5,10 +5,10 @@
       		<range v-model="percent" @change="playChange"></range>
       	</box>
       	<div class="controls">
-      		<x-icon size="40" type="ios-skipbackward"  class="icon-red"></x-icon>
-      		<span  v-if="palyState" @click="palyMusic"><x-icon size="40" type="pause"  class="icon-red"></x-icon></span>
-      		<span v-else @click="palyMusic"><x-icon size="40" type="play"  class="icon-red"></x-icon></span>
-      		<x-icon type="ios-skipforward" size="40"  class="icon-red"></x-icon>
+      		<x-icon size="40" type="ios-skipbackward-outline" @click="skipbackward"  class="xicon-fff" ></x-icon>
+      		<span class="quan"  v-if="palyState" @click="palyMusic"><x-icon size="30" type="ios-pause-outline"  class="xicon-fff"></x-icon></span>
+      		<span class="quan" v-else @click="palyMusic"><x-icon size="30" type="ios-play-outline"  class="xicon-fff"></x-icon></span>
+      		<x-icon type="ios-skipforward-outline" @click="skipforward" size="40"  class="xicon-fff"></x-icon>
       	</div>
 		
       	<!-- <x-button text="播放"  @click.native="stopPlay" type="primary">11</x-button> -->
@@ -43,11 +43,13 @@ import { XProgress, Box,XButton,Range } from 'vux'
 				console.log(e)
 			},
 			timeupdate(e){
-				this.percent = this.$refs['audio'].currentTime/(this.maxTime/100);
-				var t = this.$refs['audio'].currentTime;
-				var maxT = this.maxTime
-				this.$el.querySelector('.range-min').innerHTML=Math.floor(t/60)+":"+(t%60/100).toFixed(2).slice(-2)
-				this.$el.querySelector('.range-max').innerHTML=Math.floor(maxT/60)+":"+(maxT%60/100).toFixed(2).slice(-2)
+				if(this.$refs['audio']){
+					this.percent = this.$refs['audio'].currentTime/(this.maxTime/100);
+					var t = this.$refs['audio'].currentTime;
+					var maxT = this.maxTime
+					this.$el.querySelector('.range-min').innerHTML=Math.floor(t/60)+":"+(t%60/100).toFixed(2).slice(-2)
+					this.$el.querySelector('.range-max').innerHTML=Math.floor(maxT/60)+":"+(maxT%60/100).toFixed(2).slice(-2)
+				}
 			},
 			stopPlay(){
 				this.$refs['audio'].pause()
@@ -64,8 +66,12 @@ import { XProgress, Box,XButton,Range } from 'vux'
 					this.$refs['audio'].pause()
 					this.palyState = false
 				}
-				
-
+			},
+			skipforward(){
+				this.$emit('skipforward');
+			},
+			skipbackward(){
+				this.$emit('skipbackward');
 			}
 		},
 		mounted(){
@@ -94,5 +100,19 @@ import { XProgress, Box,XButton,Range } from 'vux'
 		/*margin:0 auto;*/
 		text-align: center;
 		font-size: 20px;
+	}
+	.xicon-fff{
+		fill: #F3F3FF;
+		vertical-align: middle;
+		margin-top: -6px;
+	}
+	.quan{
+		display: inline-block;
+		width: 40px;
+		height: 40px;
+		border: 2px solid #F3F3FF;
+		border-radius: 40px;
+		line-height: 40px;
+		
 	}
 </style>
