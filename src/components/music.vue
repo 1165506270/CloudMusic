@@ -2,12 +2,12 @@
 	<div>
 		<audio ref="audio" :src="musicUrl" autoplay="true" @canplay="canplay($event)" @timeupdate="timeupdate($event)"></audio>
       	<box  gap="10px">
-      		<range v-model="percent" @change="playChange"></range>
+      		<range :value="percent" @on-change="playChange" class="palyRange"></range>
       	</box>
       	<div class="controls">
       		<x-icon size="40" type="ios-skipbackward-outline" @click="skipbackward"  class="xicon-fff" ></x-icon>
       		<span class="quan"  v-if="palyState" @click="palyMusic"><x-icon size="30" type="ios-pause-outline"  class="xicon-fff"></x-icon></span>
-      		<span class="quan" v-else @click="palyMusic"><x-icon size="30" type="ios-play-outline"  class="xicon-fff"></x-icon></span>
+      		<span class="quan" v-else @click="palyMusic"><x-icon size="30" style="marginLeft:5px;" type="ios-play-outline"  class="xicon-fff"></x-icon></span>
       		<x-icon type="ios-skipforward-outline" @click="skipforward" size="40"  class="xicon-fff"></x-icon>
       	</div>
 		
@@ -52,11 +52,13 @@ import { XProgress, Box,XButton,Range } from 'vux'
 				}
 			},
 			stopPlay(){
-				this.$refs['audio'].pause()
+				this.$refs['audio'].pause();
+				this.$emit("playingChange");
 			},
 			playChange(v){
-				console.log(v)
-				this.$refs['audio'].currentTime = v/100*this.maxTime
+				if(this.$refs['audio'].currentTime - v/100*this.maxTime > 2 || this.$refs['audio'].currentTime - v/100*this.maxTime < -2){
+					this.$refs['audio'].currentTime = v/100*this.maxTime;
+				}
 			},
 			palyMusic(){
 				if(!this.palyState){
@@ -66,6 +68,7 @@ import { XProgress, Box,XButton,Range } from 'vux'
 					this.$refs['audio'].pause()
 					this.palyState = false
 				}
+				this.$emit("playingChange");
 			},
 			skipforward(){
 				this.$emit('skipforward');
@@ -113,6 +116,8 @@ import { XProgress, Box,XButton,Range } from 'vux'
 		border: 2px solid #F3F3FF;
 		border-radius: 40px;
 		line-height: 40px;
-		
+	}
+	.palyRange .range-min,.palyRange .range-max{
+		color:#fff;
 	}
 </style>

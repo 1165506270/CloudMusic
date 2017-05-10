@@ -1,11 +1,22 @@
 <template>
-  <div style="height: 100%">
+  <div style="height: 100%" class="musicPlay">
     <!-- <audio controls="controls" :src="musicUrl">  
       <source :src="musicUrl" />  
     </audio>  -->
-    <x-header :left-options="{showBack: true}" fiexd :title="musicName"></x-header>
-    <music :musicUrl="musicUrl" @skipbackward="skipbackward"></music> 
-    <div :style="{backgroundImage:'url('+musicPic+')'}"class="bgPic"></div>
+    <x-header :left-options="{showBack: true}" fiexd style="background:rgba(53,73,94,0.2)">
+      <div>
+        <p style="line-height:25px;font-size:14px;margin:0">{{musicName}}</p>
+        <p style="line-height:15px;font-size:12px;">{{artistName}}</p>  
+      </div>
+    </x-header>
+    <div class="playBody">
+      <div class="record" :class={animationPlay:playing,animationStop:!playing}>
+        <img :src="musicPic">
+      </div>
+      <music :musicUrl="musicUrl" @skipbackward="skipbackward" @playingChange="playingChange" @skipforward="skipforward" class="musicCtr"></music> 
+    </div>
+    
+    <div :style="{backgroundImage:'url('+musicPic+')'}" class="bgPic"></div>
   </div>
 </template>
 <script>
@@ -17,7 +28,9 @@ export default {
   	return {
       musicUrl:'',
       musicName:'',
-      musicPic: ''
+      musicPic: '',
+      playing:true,
+      artistName:''
   	}
   },
   components:{
@@ -31,10 +44,9 @@ export default {
       var that = this;
       this.$http.get('/proxy/music/songDetail',{params:{ids:that.$route.params.id}})
       .then(function(res){
-        console.log(res)
         that.musicName = res.data.songs[0].name;
         that.musicPic = res.data.songs[0].album.picUrl;
-        // that.$store.state.title =  res.data.playlist.name;
+        that.artistName = res.data.songs[0].artists[0].name;
         that.$nextTick(function(){
           that.$emit('resetScroller')
         })
@@ -45,14 +57,43 @@ export default {
         })
     },
     skipbackward(){
-      console.log(this.$store.state.playlist)
       var that = this;
       var palylist = this.$store.state.playlist;
-      palylist.forEach(function(v,index){
-        if(v.id === that.$route.params.id){
-          console.log(index);
+      palylist.every(function(v,index,ar){
+        if(v.id == that.$route.params.id){
+          var muiscId = that.$route.params.id;
+          if(ar[index-1]){
+             var muiscId = ar[index-1].id;
+          }else{
+            var muiscId = ar[ar.length-1].id
+          }
+          that.$router.replace('/muiscPlay/'+muiscId);
+          that.initData()
+          return false;
         }
+        return true;
       })
+    },
+    skipforward(){
+      var that = this;
+      var palylist = this.$store.state.playlist;
+      palylist.every(function(v,index,ar){
+        if(v.id == that.$route.params.id){
+          var muiscId = that.$route.params.id;
+          if(ar[index+1]){
+             var muiscId = ar[index+1].id;
+          }else{
+            var muiscId = ar[0].id
+          }
+          that.$router.replace('/muiscPlay/'+muiscId);
+          that.initData()
+          return false;
+        }
+        return true;
+      })
+    },
+    playingChange(){
+      this.playing = !this.playing;
     }
   }
 }
@@ -67,6 +108,43 @@ export default {
   width: 100%;
   background-size:auto 100%;
   background-position:center;
-  -webkit-filter: blur(8px);
+  filter: blur(8px);
+}
+.record{
+  height:12rem;
+  width:12rem;
+  border:2rem solid #111111;
+  border-radius:12rem;
+  overflow:hidden;
+  margin: 5rem auto;
+ animation:change 8s linear infinite;
+}
+.record img{
+  width:100%;
+  height:100%;
+}
+.animationPlay{
+  animation-play-state: running;
+}
+.animationStop{
+  animation-play-state: paused;
+}
+ @keyframes change {
+     0%{
+       transform:rotate(0deg);
+    }
+     50% {
+        transform:rotate(180deg);
+     }
+     100% {
+        transform:rotate(360deg);
+     }
+ }
+.musicPlay .vux-header .vux-header-left a,.musicPlay .vux-header .vux-header-left .left-arrow:before{
+  color:#fff;
+  border-color:#fff;
+}
+.musicCtr{
+  margin-top: 15rem;
 }
 </style>

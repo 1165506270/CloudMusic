@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <header><h1>我的音乐</h1></header> -->
-    <x-header :left-options="{showBack: false}" fiexd  :title="title"></x-header>
+    <x-header :left-options="{showBack: title!=='我的音乐'}" fiexd  :title="title"></x-header>
     <scroller ref="scroller" height="-93" :lock-x="true" :scrollbarY="true" ><router-view @resetScroller="resetScroller"></router-view></scroller>
     <tabbar>
       <tabbar-item>
@@ -42,6 +42,7 @@ export default {
   },
   methods:{
     resetScroller(){
+      console.log(1111)
       this.$refs['scroller'].reset()
     }
   }
