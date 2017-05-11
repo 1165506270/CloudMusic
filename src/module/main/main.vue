@@ -2,7 +2,7 @@
   <div>
     <!-- <header><h1>我的音乐</h1></header> -->
     <x-header :left-options="{showBack: title!=='我的音乐'}" fiexd  :title="title"></x-header>
-    <scroller ref="scroller" height="calc(100% - 96px)" style="margin-top:46px;height:calc(100% - 96px)"><router-view @resetScroller="resetScroller"></router-view></scroller>
+    <scroller ref="scroller" height="height:calc(100% - 96px)" style="margin-top:46px;height:calc(100% - 96px)"><router-view @resetScroller="resetScroller"></router-view></scroller>
     <tabbar>
       <tabbar-item>
         <img slot="icon" >
@@ -46,13 +46,8 @@ export default {
   },
   methods:{
     resetScroller(){
-      // console.log(1111)
-      // this.$nextTick(() => {
-        this.$refs.scroller.reset({
-          top: 0
-        })
-    // })
-      setTimeout(() =>this.$refs['scroller'].reset(),1100);
+        console.log(111)
+        this.$refs.scroller.resize()
     }
   }
 }

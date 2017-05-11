@@ -6,6 +6,9 @@ import Main from '@/module/main/main'
 import MyMusic from '@/module/main/myMusic/myMusic'
 import SongList from '@/module/main/songList/songList'
 import MusicPlay from '@/module/musicPlay/musicPlay'
+import MyCollect from '@/module/main/myCollect/myCollect'
+import MyBroadcasting from '@/module/main/myBroadcasting/myBroadcasting'
+import record from '@/module/main/record/record'
 Vue.use(Router)
 
 export default new Router({
@@ -28,6 +31,15 @@ export default new Router({
     		},{
     			path:'songList/:id',
     			component:SongList
+    		},{
+    			path:'myCollect',
+    			component:MyCollect
+    		},{
+    			path:'myBroadcasting',
+    			component:MyBroadcasting
+    		},{
+    			path:'record',
+    			component:record
     		}
     	]
     },

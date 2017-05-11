@@ -95,10 +95,13 @@ export default {
                 var rightValue = arr[right];
                 return rightValue > leftValue ? leftValue : rightValue;
         }
-        setInterval(()=>{
+        var time = setInterval(()=>{
             var musicCurrentTime = closest(this.lyricSum,this.$store.state.musicCurrentTime);
-            console.log(this.$store.state.musicCurrentTime,musicCurrentTime)
             var obj = this.$el.querySelector('#sum_'+musicCurrentTime);
+            
+            if(this.$route.path.indexOf("/muiscPla") === -1){
+                clearInterval(time);
+            }
             if(obj){
                 this.currentLyric = musicCurrentTime;
                 this.$refs.lyricScroller.scrollTo(0,obj.offsetTop-100)
