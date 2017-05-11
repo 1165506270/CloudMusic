@@ -7,6 +7,7 @@ import App from './App'
 import router from './router'
 import { AjaxPlugin } from 'vux'
 import store from './store'
+import Scroller from "vue-scroller"
 // import Home from './components/HelloFromVux'
 
 // Vue.use(VueRouter)
@@ -22,6 +23,7 @@ import store from './store'
 
 FastClick.attach(document.body)
 Vue.use(AjaxPlugin)
+Vue.use(Scroller)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

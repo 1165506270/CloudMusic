@@ -10,9 +10,13 @@
       </div>
     </x-header>
     <div class="playBody">
-      <div class="record" :class={animationPlay:playing,animationStop:!playing}>
+      <div class="lyricBox" @click="showLyric=!showLyric">
+      <div class="record" v-show="!showLyric" :class={animationPlay:playing,animationStop:!playing}>
         <img :src="musicPic">
       </div>
+        <lyric :lyric="lyric" v-show="showLyric"></lyric>
+      </div>
+      
       <music :musicUrl="musicUrl" @skipbackward="skipbackward" @playingChange="playingChange" @skipforward="skipforward" class="musicCtr"></music> 
     </div>
     
@@ -22,6 +26,7 @@
 <script>
 import { Cell,XHeader  } from 'vux'
 import Music from '@/components/music.vue'
+import Lyric from '@/components/lyric.vue'
  
 export default {
   data(){
@@ -30,11 +35,13 @@ export default {
       musicName:'',
       musicPic: '',
       playing:true,
-      artistName:''
+      artistName:'',
+      lyric:'',
+      showLyric:false
   	}
   },
   components:{
-  	Cell,Music,XHeader
+  	Cell,Music,XHeader,Lyric
   },
   mounted(){
     this.initData()
@@ -42,18 +49,33 @@ export default {
   methods:{
     initData(){
       var that = this;
-      this.$http.get('/proxy/music/songDetail',{params:{ids:that.$route.params.id}})
-      .then(function(res){
-        that.musicName = res.data.songs[0].name;
-        that.musicPic = res.data.songs[0].album.picUrl;
-        that.artistName = res.data.songs[0].artists[0].name;
-        that.$nextTick(function(){
-          that.$emit('resetScroller')
-        })
+      // this.$http.get('/proxy/music/songDetail',{params:{ids:that.$route.params.id}})
+      // .then(function(res){
+      //   console.log(res.data)
+      //   that.musicName = res.data.songs[0].name;
+      //   that.musicPic = res.data.songs[0].album.picUrl;
+      //   that.artistName = res.data.songs[0].artists[0].name;
+      //   that.$nextTick(function(){
+      //     that.$emit('resetScroller')
+      //   })
+      // })
+      this.$http.get('/proxy/song/detail',{params:{ids:that.$route.params.id}})
+        .then(function(res){
+          that.musicName = res.data.songs[0].name;
+          that.musicPic = res.data.songs[0].al.picUrl;
+          that.artistName = res.data.songs[0].ar[0].name;
+          that.$nextTick(function(){
+            that.$emit('resetScroller')
+          })
       })
       this.$http.get('proxy/music/url',{params:{id:that.$route.params.id}})
         .then(function(res){
         that.musicUrl = res.data.data[0].url;
+      })
+      this.$http.get('proxy/lyric',{params:{id:that.$route.params.id}})
+        .then(function(res){
+          console.log(res.data)
+          that.lyric = res.data.lrc.lyric
         })
     },
     skipbackward(){
@@ -108,7 +130,12 @@ export default {
   width: 100%;
   background-size:auto 100%;
   background-position:center;
-  filter: blur(8px);
+  filter: blur(20px);
+}
+.lyricBox{
+  position: relative;
+  height: 20rem;
+  margin-top: 5rem;
 }
 .record{
   height:12rem;
@@ -145,6 +172,6 @@ export default {
   border-color:#fff;
 }
 .musicCtr{
-  margin-top: 15rem;
+  margin-top: 10rem;
 }
 </style>

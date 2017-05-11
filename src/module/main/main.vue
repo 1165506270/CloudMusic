@@ -2,7 +2,7 @@
   <div>
     <!-- <header><h1>我的音乐</h1></header> -->
     <x-header :left-options="{showBack: title!=='我的音乐'}" fiexd  :title="title"></x-header>
-    <scroller ref="scroller" height="-93" :lock-x="true" :scrollbarY="true" ><router-view @resetScroller="resetScroller"></router-view></scroller>
+    <scroller ref="scroller" height="calc(100% - 96px)" style="margin-top:46px;height:calc(100% - 96px)"><router-view @resetScroller="resetScroller"></router-view></scroller>
     <tabbar>
       <tabbar-item>
         <img slot="icon" >
@@ -25,7 +25,8 @@
 </template>
 
 <script>
-import { XHeader, Tabbar, TabbarItem, Scroller} from 'vux'
+import { XHeader, Tabbar, TabbarItem} from 'vux'
+
 
 export default {
   data(){
@@ -38,12 +39,20 @@ export default {
     }
   },
   components:{
-  	XHeader,Tabbar, TabbarItem,Scroller
+  	XHeader,Tabbar, TabbarItem
+  },
+  mounted(){
+    this.$store.state.scroller = this.$refs['scroller'];
   },
   methods:{
     resetScroller(){
-      console.log(1111)
-      this.$refs['scroller'].reset()
+      // console.log(1111)
+      // this.$nextTick(() => {
+        this.$refs.scroller.reset({
+          top: 0
+        })
+    // })
+      setTimeout(() =>this.$refs['scroller'].reset(),1100);
     }
   }
 }

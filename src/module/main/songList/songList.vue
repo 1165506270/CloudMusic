@@ -32,7 +32,6 @@ export default {
         that.$store.state.title =  res.data.playlist.name;
         that.$store.state.playlist = res.data.playlist.tracks;
         that.$nextTick(function(){
-          console.log(111)
           that.$emit('resetScroller')
         })
       })

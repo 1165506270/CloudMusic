@@ -4,7 +4,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     uid: '',
-    title:''
+    title:'',
+    musicCurrentTime:'',
   },
   mutations: {
     resetScroller (state) {

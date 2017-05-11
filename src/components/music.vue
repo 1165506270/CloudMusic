@@ -40,7 +40,6 @@ import { XProgress, Box,XButton,Range } from 'vux'
 		},
 		methods:{
 			canplay(e){
-				console.log(e)
 			},
 			timeupdate(e){
 				if(this.$refs['audio']){
@@ -49,6 +48,7 @@ import { XProgress, Box,XButton,Range } from 'vux'
 					var maxT = this.maxTime
 					this.$el.querySelector('.range-min').innerHTML=Math.floor(t/60)+":"+(t%60/100).toFixed(2).slice(-2)
 					this.$el.querySelector('.range-max').innerHTML=Math.floor(maxT/60)+":"+(maxT%60/100).toFixed(2).slice(-2)
+					this.$store.state.musicCurrentTime = parseInt(t);
 				}
 			},
 			stopPlay(){
