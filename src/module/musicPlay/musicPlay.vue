@@ -172,6 +172,8 @@ export default {
   border-color:#fff;
 }
 .musicCtr{
-  margin-top: 10rem;
+  width: 100%;
+  position: absolute;
+  bottom: 3rem;
 }
 </style>
