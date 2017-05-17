@@ -35,6 +35,9 @@ export default {
           that.$emit('resetScroller')
         })
       })
+    },
+    showMenu(item){
+      console.log(item);
     }
   }
 }

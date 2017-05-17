@@ -2,7 +2,7 @@
   <div>
     <!-- <header><h1>我的音乐</h1></header> -->
     <x-header :left-options="{showBack: title!=='我的音乐'}" fiexd  :title="title"></x-header>
-    <scroller ref="scroller" height="height:calc(100% - 96px)" style="margin-top:46px;height:calc(100% - 96px)"><router-view @resetScroller="resetScroller"></router-view></scroller>
+    <scroller ref="scroller" :height="'100%-96'" style="margin-top:46px;"><router-view @resetScroller="resetScroller"></router-view></scroller>
     <tabbar>
       <tabbar-item>
         <img slot="icon" >

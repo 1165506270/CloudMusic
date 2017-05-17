@@ -2,13 +2,15 @@
 	<div>
 		<audio ref="audio" :src="musicUrl" autoplay="true" @canplay="canplay($event)" @timeupdate="timeupdate($event)"></audio>
       	<box  gap="10px">
-      		<range :value="percent" @on-change="playChange" class="palyRange"></range>
+      		<range :value="percent" style="margin-left: 30px;" @on-change="playChange" class="palyRange"></range>
       	</box>
       	<div class="controls">
-      		<x-icon size="40" type="ios-skipbackward-outline" @click="skipbackward"  class="xicon-fff" ></x-icon>
+		  	<x-icon type="ios-shuffle" @click="skipforward" size="40"  class="xicon-fff"></x-icon>
+      		<x-icon size="40" type="ios-skipbackward-outline" @click="skipbackward"  style="margin-left:40px;margin-right:40px;"   class="xicon-fff" ></x-icon>
       		<span class="quan"  v-if="palyState" @click="palyMusic"><x-icon size="30" type="ios-pause-outline"  class="xicon-fff"></x-icon></span>
       		<span class="quan" v-else @click="palyMusic"><x-icon size="30" style="marginLeft:5px;" type="ios-play-outline"  class="xicon-fff"></x-icon></span>
-      		<x-icon type="ios-skipforward-outline" @click="skipforward" size="40"  class="xicon-fff"></x-icon>
+      		<x-icon type="ios-skipforward-outline" @click="skipforward" size="40"  style="margin-left:40px;margin-right:40px;"  class="xicon-fff"></x-icon>
+			<x-icon type="navicon" @click="skipforward" size="40"  class="xicon-fff"></x-icon>
       	</div>
 		
       	<!-- <x-button text="播放"  @click.native="stopPlay" type="primary">11</x-button> -->
@@ -20,7 +22,8 @@ import { XProgress, Box,XButton,Range } from 'vux'
 		data(){
 			return {
 				percent:0,
-				palyState:true
+				palyState:true,
+				maxTime:0
 			}
 		},
 		props:{
@@ -28,9 +31,6 @@ import { XProgress, Box,XButton,Range } from 'vux'
 			
 		},
 		computed:{
-			maxTime(){
-				return this.$refs['audio'].duration
-			}
 			// percent(){
 			// 	return this
 			// }
@@ -40,6 +40,7 @@ import { XProgress, Box,XButton,Range } from 'vux'
 		},
 		methods:{
 			canplay(e){
+				this.maxTime = this.$refs['audio'].duration;
 			},
 			timeupdate(e){
 				if(this.$refs['audio']){
@@ -107,7 +108,7 @@ import { XProgress, Box,XButton,Range } from 'vux'
 	.xicon-fff{
 		fill: #F3F3FF;
 		vertical-align: middle;
-		margin-top: -6px;
+		margin-top: -8px;
 	}
 	.quan{
 		display: inline-block;
